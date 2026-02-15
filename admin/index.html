@@ -386,6 +386,300 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Image Upload Styles */
+        .image-upload-area {
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(0,212,255,0.05);
+        }
+
+        .image-upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(0,212,255,0.1);
+        }
+
+        .image-upload-area i {
+            font-size: 32px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .image-upload-area p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .image-upload-area input[type="file"] {
+            display: none;
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .image-preview .remove-image {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .image-preview .remove-image:hover {
+            transform: scale(1.1);
+        }
+
+        .upload-progress {
+            margin-top: 10px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Multi-Image Upload Styles */
+        .multi-image-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .image-slot {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .image-upload-slot {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .image-upload-slot:hover {
+            border-color: var(--primary);
+            background: rgba(0,212,255,0.05);
+        }
+
+        .image-upload-slot i {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        .image-upload-slot span {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .image-upload-slot.has-image {
+            border: 2px solid var(--primary);
+        }
+
+        .image-upload-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-slot-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .remove-slot-image:hover {
+            transform: scale(1.1);
+        }
+
+        /* PDF Upload Styles */
+        .pdf-upload-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pdf-upload-box {
+            flex: 1;
+            padding: 20px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .pdf-upload-box:hover {
+            border-color: var(--primary);
+            background: rgba(0,212,255,0.05);
+        }
+
+        .pdf-upload-box i {
+            font-size: 24px;
+            color: var(--text-muted);
+        }
+
+        .pdf-upload-box span {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .pdf-upload-box.has-file {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .pdf-upload-box.has-file i {
+            color: #e74c3c;
+        }
+
+        .pdf-upload-box.has-file span {
+            color: var(--text-primary);
+        }
+
+        .remove-pdf-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .remove-pdf-btn:hover {
+            background: #c0392b;
+        }
+
+        .project-thumbnail {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .no-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* Settings Page Styles */
+        .settings-section {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .settings-section h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+
+        .settings-form {
+            max-width: 400px;
+        }
+
+        .settings-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .settings-message {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .settings-message.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .settings-message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
     </style>
 </head>
 <body>
@@ -421,6 +715,7 @@
                 <li><a href="#" data-page="projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
                 <li><a href="#" data-page="experience"><i class="fas fa-briefcase"></i> Experience</a></li>
                 <li><a href="#" data-page="contacts"><i class="fas fa-envelope"></i> Contacts</a></li>
+                <li><a href="#" data-page="settings"><i class="fas fa-user-cog"></i> Settings</a></li>
             </ul>
             <div style="margin-top: 30px; padding: 15px;">
                 <a href="/" class="view-site" target="_blank"><i class="fas fa-external-link-alt"></i> View Portfolio</a>
@@ -496,6 +791,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Title</th>
                                 <th>Technologies</th>
                                 <th>Featured</th>
@@ -549,6 +845,51 @@
                         </thead>
                         <tbody id="contactsTable"></tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settingsPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Account Settings</h2>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3><i class="fas fa-user"></i> Change Username</h3>
+                        <form id="changeUsernameForm" class="settings-form">
+                            <div class="form-group">
+                                <label>New Username</label>
+                                <input type="text" id="newUsername" required placeholder="Enter new username" minlength="3">
+                            </div>
+                            <div class="form-group">
+                                <label>Current Password (to confirm)</label>
+                                <input type="password" id="usernameCurrentPassword" required placeholder="Enter current password">
+                            </div>
+                            <div id="usernameMessage" class="settings-message"></div>
+                            <button type="submit" class="btn btn-primary" style="width: auto;">Update Username</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-lock"></i> Change Password</h3>
+                        <form id="changePasswordForm" class="settings-form">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" id="currentPassword" required placeholder="Enter current password">
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" id="newPassword" required placeholder="Enter new password" minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" id="confirmPassword" required placeholder="Confirm new password">
+                            </div>
+                            <div id="passwordMessage" class="settings-message"></div>
+                            <button type="submit" class="btn btn-primary" style="width: auto;">Update Password</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </main>
@@ -710,8 +1051,30 @@
                 const projects = await res.json();
 
                 const table = document.getElementById('projectsTable');
-                table.innerHTML = projects.map(project => `
+                table.innerHTML = projects.map(project => {
+                    // Parse images - can be JSON array or single URL
+                    let firstImage = '';
+                    if (project.image_url) {
+                        try {
+                            if (project.image_url.startsWith('[')) {
+                                const images = JSON.parse(project.image_url);
+                                firstImage = images[0] || '';
+                            } else {
+                                firstImage = project.image_url;
+                            }
+                        } catch (e) {
+                            firstImage = project.image_url;
+                        }
+                    }
+                    
+                    return `
                     <tr>
+                        <td>
+                            ${firstImage 
+                                ? `<img src="${firstImage}" alt="${project.title}" class="project-thumbnail">`
+                                : `<div class="no-image"><i class="fas fa-image"></i></div>`
+                            }
+                        </td>
                         <td>${project.title}</td>
                         <td>${project.technologies || '-'}</td>
                         <td>${project.featured ? '<i class="fas fa-star" style="color: var(--warning);"></i>' : '-'}</td>
@@ -724,7 +1087,7 @@
                             </button>
                         </td>
                     </tr>
-                `).join('');
+                `}).join('');
             } catch (err) {
                 console.error('Error loading projects:', err);
             }
@@ -819,7 +1182,64 @@
                     </div>
                 `;
             } else if (type === 'project') {
+                const existingImages = data?.image_url ? (data.image_url.startsWith('[') ? JSON.parse(data.image_url) : [data.image_url]) : [];
                 fields.innerHTML = `
+                    <div class="form-group">
+                        <label>Project Category</label>
+                        <select name="category">
+                            <option value="Web Development" ${data?.category === 'Web Development' ? 'selected' : ''}>Web Development</option>
+                            <option value="Mobile App" ${data?.category === 'Mobile App' ? 'selected' : ''}>Mobile App</option>
+                            <option value="IoT & Embedded" ${data?.category === 'IoT & Embedded' ? 'selected' : ''}>IoT & Embedded</option>
+                            <option value="Machine Learning" ${data?.category === 'Machine Learning' ? 'selected' : ''}>Machine Learning</option>
+                            <option value="Desktop App" ${data?.category === 'Desktop App' ? 'selected' : ''}>Desktop App</option>
+                            <option value="API & Backend" ${data?.category === 'API & Backend' ? 'selected' : ''}>API & Backend</option>
+                            <option value="Game Development" ${data?.category === 'Game Development' ? 'selected' : ''}>Game Development</option>
+                            <option value="Other" ${data?.category === 'Other' ? 'selected' : ''}>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Images (Max 5 - Images rotate every 2 seconds)</label>
+                        <div class="multi-image-container" id="multiImageContainer">
+                            ${[0,1,2,3,4].map(i => `
+                                <div class="image-slot" id="imageSlot${i}">
+                                    <div class="image-upload-slot ${existingImages[i] ? 'has-image' : ''}" 
+                                         onclick="document.getElementById('imageInput${i}').click()" 
+                                         id="uploadSlot${i}">
+                                        ${existingImages[i] 
+                                            ? `<img src="${existingImages[i]}" alt="Image ${i+1}">`
+                                            : `<i class="fas fa-plus"></i><span>${i+1}</span>`
+                                        }
+                                    </div>
+                                    ${existingImages[i] ? `<button type="button" class="remove-slot-image" onclick="removeSlotImage(${i})"><i class="fas fa-times"></i></button>` : ''}
+                                    <input type="file" id="imageInput${i}" data-slot="${i}" accept="image/jpeg,image/png,image/gif,image/webp" onchange="handleSlotImageSelect(event, ${i})" style="display:none;">
+                                    <input type="hidden" name="image_url_${i}" id="imageUrlInput${i}" value="${existingImages[i] || ''}">
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+                            <i class="fas fa-info-circle"></i> PNG, JPG, GIF, WebP (Max 5MB each). First image is main image.
+                        </p>
+                        <div id="uploadProgress" class="upload-progress" style="display: none;">
+                            <div id="uploadProgressBar" class="upload-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Project PDF (Optional - Documentation, Report, etc.)</label>
+                        <div class="pdf-upload-container">
+                            <input type="file" id="pdfInput" accept="application/pdf" onchange="handlePdfSelect(event)" style="display:none;">
+                            <div class="pdf-upload-box" onclick="document.getElementById('pdfInput').click()" id="pdfUploadBox">
+                                ${data?.pdf_url 
+                                    ? `<i class="fas fa-file-pdf" style="color: #e74c3c;"></i><span>${data.pdf_url.split('/').pop()}</span>`
+                                    : `<i class="fas fa-cloud-upload-alt"></i><span>Click to upload PDF</span>`
+                                }
+                            </div>
+                            ${data?.pdf_url ? `<button type="button" class="remove-pdf-btn" onclick="removePdf()"><i class="fas fa-times"></i> Remove</button>` : ''}
+                            <input type="hidden" name="pdf_url" id="pdfUrlInput" value="${data?.pdf_url || ''}">
+                        </div>
+                        <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">
+                            <i class="fas fa-info-circle"></i> PDF files only (Max 10MB)
+                        </p>
+                    </div>
                     <div class="form-group">
                         <label>Title</label>
                         <input type="text" name="title" required value="${data ? data.title : ''}">
@@ -844,6 +1264,9 @@
                         <label><input type="checkbox" name="featured" ${data?.featured ? 'checked' : ''}> Featured Project</label>
                     </div>
                 `;
+                
+                // Set up drag and drop after DOM is rendered
+                setTimeout(() => setupMultiImageUpload(), 0);
             } else if (type === 'experience') {
                 fields.innerHTML = `
                     <div class="form-group">
@@ -898,6 +1321,23 @@
             // Handle checkbox
             if (currentEditType === 'project') {
                 data.featured = formData.has('featured');
+                
+                // Collect all image URLs into JSON array
+                const images = [];
+                for (let i = 0; i < 5; i++) {
+                    const imgUrl = document.getElementById(`imageUrlInput${i}`)?.value;
+                    if (imgUrl) images.push(imgUrl);
+                }
+                data.image_url = JSON.stringify(images);
+                
+                // Get PDF URL
+                const pdfInput = document.getElementById('pdfUrlInput');
+                data.pdf_url = pdfInput ? pdfInput.value : '';
+                
+                // Remove individual image_url_X fields
+                for (let i = 0; i < 5; i++) {
+                    delete data[`image_url_${i}`];
+                }
             }
 
             // Fix endpoint for experience (singular) vs skills/projects (plural)
@@ -1004,6 +1444,479 @@
                 loadDashboard();
             });
         }
+
+        // Image Upload Functions
+        let currentImageFile = null;
+
+        function setupImageUpload() {
+            const uploadArea = document.getElementById('imageUploadArea');
+            if (!uploadArea) return;
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleImageFile(files[0]);
+                }
+            });
+        }
+
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleImageFile(file);
+            }
+        }
+
+        async function handleImageFile(file) {
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.');
+                return;
+            }
+
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File too large. Maximum size is 5MB.');
+                return;
+            }
+
+            currentImageFile = file;
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('imagePreviewContainer').style.display = 'block';
+                document.getElementById('imageUploadArea').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+
+            // Upload the image
+            await uploadImage(file);
+        }
+
+        async function uploadImage(file) {
+            const progressContainer = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('uploadProgressBar');
+            
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percent + '%';
+                    }
+                });
+
+                xhr.addEventListener('load', () => {
+                    progressContainer.style.display = 'none';
+                    
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        document.getElementById('imageUrlInput').value = response.url;
+                        currentImageFile = null;
+                    } else {
+                        alert('Failed to upload image');
+                        removeImage();
+                    }
+                });
+
+                xhr.addEventListener('error', () => {
+                    progressContainer.style.display = 'none';
+                    alert('Failed to upload image');
+                    removeImage();
+                });
+
+                xhr.open('POST', '/api/admin/upload');
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                xhr.send(formData);
+                
+            } catch (err) {
+                console.error('Upload error:', err);
+                progressContainer.style.display = 'none';
+                alert('Failed to upload image');
+                removeImage();
+            }
+        }
+
+        function removeImage() {
+            const imageUrl = document.getElementById('imageUrlInput').value;
+            
+            // Delete the image from server if it was uploaded
+            if (imageUrl && imageUrl.startsWith('/uploads/')) {
+                const filename = imageUrl.split('/').pop();
+                fetch(`/api/admin/upload/${filename}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).catch(err => console.error('Failed to delete image:', err));
+            }
+
+            // Reset UI
+            document.getElementById('imageUrlInput').value = '';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById('imageUploadArea').style.display = 'block';
+            document.getElementById('imageInput').value = '';
+            currentImageFile = null;
+        }
+
+        // Multi-Image Upload Functions
+        function setupMultiImageUpload() {
+            // Setup drag and drop for each slot
+            for (let i = 0; i < 5; i++) {
+                const slot = document.getElementById(`uploadSlot${i}`);
+                if (!slot) continue;
+                
+                slot.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    slot.style.borderColor = 'var(--primary)';
+                    slot.style.background = 'rgba(0,212,255,0.1)';
+                });
+                
+                slot.addEventListener('dragleave', () => {
+                    slot.style.borderColor = '';
+                    slot.style.background = '';
+                });
+                
+                slot.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    slot.style.borderColor = '';
+                    slot.style.background = '';
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        handleSlotImageFile(files[0], i);
+                    }
+                });
+            }
+        }
+
+        function handleSlotImageSelect(event, slotIndex) {
+            const file = event.target.files[0];
+            if (file) {
+                handleSlotImageFile(file, slotIndex);
+            }
+        }
+
+        async function handleSlotImageFile(file, slotIndex) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File too large. Maximum size is 5MB.');
+                return;
+            }
+
+            // Show preview immediately
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const slot = document.getElementById(`uploadSlot${slotIndex}`);
+                slot.innerHTML = `<img src="${e.target.result}" alt="Image ${slotIndex + 1}">`;
+                slot.classList.add('has-image');
+                
+                // Add remove button
+                const slotContainer = document.getElementById(`imageSlot${slotIndex}`);
+                let removeBtn = slotContainer.querySelector('.remove-slot-image');
+                if (!removeBtn) {
+                    removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'remove-slot-image';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    removeBtn.onclick = () => removeSlotImage(slotIndex);
+                    slotContainer.appendChild(removeBtn);
+                }
+            };
+            reader.readAsDataURL(file);
+
+            // Upload the image
+            await uploadSlotImage(file, slotIndex);
+        }
+
+        async function uploadSlotImage(file, slotIndex) {
+            const progressContainer = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('uploadProgressBar');
+            
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percent + '%';
+                    }
+                });
+
+                xhr.addEventListener('load', () => {
+                    progressContainer.style.display = 'none';
+                    
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        document.getElementById(`imageUrlInput${slotIndex}`).value = response.url;
+                    } else {
+                        alert('Failed to upload image');
+                        removeSlotImage(slotIndex);
+                    }
+                });
+
+                xhr.addEventListener('error', () => {
+                    progressContainer.style.display = 'none';
+                    alert('Failed to upload image');
+                    removeSlotImage(slotIndex);
+                });
+
+                xhr.open('POST', '/api/admin/upload');
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                xhr.send(formData);
+                
+            } catch (err) {
+                console.error('Upload error:', err);
+                progressContainer.style.display = 'none';
+                alert('Failed to upload image');
+                removeSlotImage(slotIndex);
+            }
+        }
+
+        function removeSlotImage(slotIndex) {
+            const imageUrl = document.getElementById(`imageUrlInput${slotIndex}`).value;
+            
+            // Delete from server
+            if (imageUrl && imageUrl.startsWith('/uploads/')) {
+                const filename = imageUrl.split('/').pop();
+                fetch(`/api/admin/upload/${filename}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).catch(err => console.error('Failed to delete image:', err));
+            }
+
+            // Reset slot UI
+            document.getElementById(`imageUrlInput${slotIndex}`).value = '';
+            const slot = document.getElementById(`uploadSlot${slotIndex}`);
+            slot.innerHTML = `<i class="fas fa-plus"></i><span>${slotIndex + 1}</span>`;
+            slot.classList.remove('has-image');
+            
+            // Remove the remove button
+            const slotContainer = document.getElementById(`imageSlot${slotIndex}`);
+            const removeBtn = slotContainer.querySelector('.remove-slot-image');
+            if (removeBtn) removeBtn.remove();
+            
+            // Reset file input
+            const fileInput = document.getElementById(`imageInput${slotIndex}`);
+            if (fileInput) fileInput.value = '';
+        }
+
+        // PDF Upload Functions
+        async function handlePdfSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.type !== 'application/pdf') {
+                alert('Please select a PDF file');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                alert('PDF file must be less than 10MB');
+                return;
+            }
+
+            await uploadPdf(file);
+        }
+
+        async function uploadPdf(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch('/api/admin/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                if (!res.ok) throw new Error('Upload failed');
+
+                const data = await res.json();
+                
+                // Update hidden input
+                document.getElementById('pdfUrlInput').value = data.url;
+                
+                // Update UI
+                const pdfBox = document.getElementById('pdfUploadBox');
+                pdfBox.innerHTML = `<i class="fas fa-file-pdf" style="color: #e74c3c;"></i><span>${file.name}</span>`;
+                pdfBox.classList.add('has-file');
+                
+                // Add remove button if not exists
+                const container = pdfBox.parentElement;
+                if (!container.querySelector('.remove-pdf-btn')) {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'remove-pdf-btn';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i> Remove';
+                    removeBtn.onclick = removePdf;
+                    container.appendChild(removeBtn);
+                }
+            } catch (err) {
+                console.error('PDF upload failed:', err);
+                alert('Failed to upload PDF');
+            }
+        }
+
+        function removePdf() {
+            const pdfUrl = document.getElementById('pdfUrlInput').value;
+            
+            // Delete from server
+            if (pdfUrl && pdfUrl.startsWith('/uploads/')) {
+                const filename = pdfUrl.split('/').pop();
+                fetch(`/api/admin/upload/${filename}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).catch(err => console.error('Failed to delete PDF:', err));
+            }
+
+            // Reset UI
+            document.getElementById('pdfUrlInput').value = '';
+            const pdfBox = document.getElementById('pdfUploadBox');
+            pdfBox.innerHTML = `<i class="fas fa-cloud-upload-alt"></i><span>Click to upload PDF</span>`;
+            pdfBox.classList.remove('has-file');
+            
+            // Remove the remove button
+            const container = pdfBox.parentElement;
+            const removeBtn = container.querySelector('.remove-pdf-btn');
+            if (removeBtn) removeBtn.remove();
+            
+            // Reset file input
+            const fileInput = document.getElementById('pdfInput');
+            if (fileInput) fileInput.value = '';
+        }
+
+        // ============ SETTINGS HANDLERS ============
+
+        // Change Username Form
+        document.getElementById('changeUsernameForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const newUsername = document.getElementById('newUsername').value.trim();
+            const currentPassword = document.getElementById('usernameCurrentPassword').value;
+            const messageEl = document.getElementById('usernameMessage');
+
+            if (newUsername.length < 3) {
+                messageEl.textContent = 'Username must be at least 3 characters';
+                messageEl.className = 'settings-message error';
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/username', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ newUsername, currentPassword })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    // Update token with new username
+                    token = data.token;
+                    localStorage.setItem('adminToken', token);
+                    
+                    messageEl.textContent = 'Username updated successfully!';
+                    messageEl.className = 'settings-message success';
+                    
+                    // Clear form
+                    document.getElementById('newUsername').value = '';
+                    document.getElementById('usernameCurrentPassword').value = '';
+                } else {
+                    messageEl.textContent = data.error || 'Failed to update username';
+                    messageEl.className = 'settings-message error';
+                }
+            } catch (err) {
+                messageEl.textContent = 'Connection error. Please try again.';
+                messageEl.className = 'settings-message error';
+            }
+        });
+
+        // Change Password Form
+        document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const messageEl = document.getElementById('passwordMessage');
+
+            if (newPassword.length < 6) {
+                messageEl.textContent = 'New password must be at least 6 characters';
+                messageEl.className = 'settings-message error';
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                messageEl.textContent = 'New passwords do not match';
+                messageEl.className = 'settings-message error';
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/password', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ currentPassword, newPassword })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    messageEl.textContent = 'Password updated successfully!';
+                    messageEl.className = 'settings-message success';
+                    
+                    // Clear form
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmPassword').value = '';
+                } else {
+                    messageEl.textContent = data.error || 'Failed to update password';
+                    messageEl.className = 'settings-message error';
+                }
+            } catch (err) {
+                messageEl.textContent = 'Connection error. Please try again.';
+                messageEl.className = 'settings-message error';
+            }
+        });
     </script>
 </body>
 </html>

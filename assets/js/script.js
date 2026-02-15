@@ -210,34 +210,84 @@ async function loadProjects() {
             return;
         }
         
-        let html = '';
-        projects.forEach(project => {
+        // Get unique categories for filter
+        const categories = [...new Set(projects.map(p => p.category || 'Other'))];
+        
+        // Build category filter
+        let filterHtml = `
+            <div class="project-filters">
+                <button class="filter-btn active" data-category="all">All</button>
+                ${categories.map(cat => `<button class="filter-btn" data-category="${cat}">${cat}</button>`).join('')}
+            </div>
+        `;
+        
+        let cardsHtml = '';
+        projects.forEach((project, index) => {
             const tags = project.technologies ? project.technologies.split(',').map(t => t.trim()) : [];
+            const category = project.category || 'Other';
             
-            html += `
-                <div class="project-card">
-                    <div class="project-image">
-                        ${project.image_url 
-                            ? `<img src="${project.image_url}" alt="${project.title}">`
+            // Parse images - can be JSON array or single URL
+            let images = [];
+            if (project.image_url) {
+                try {
+                    if (project.image_url.startsWith('[')) {
+                        images = JSON.parse(project.image_url);
+                    } else {
+                        images = [project.image_url];
+                    }
+                } catch (e) {
+                    images = [project.image_url];
+                }
+            }
+            
+            const hasMultipleImages = images.length > 1;
+            
+            cardsHtml += `
+                <div class="project-card" data-category="${category}">
+                    <div class="project-image ${hasMultipleImages ? 'slideshow' : ''}" data-project-index="${index}">
+                        ${images.length > 0 
+                            ? images.map((img, imgIndex) => `
+                                <img src="${img}" alt="${project.title}" 
+                                     class="project-slide ${imgIndex === 0 ? 'active' : ''}"
+                                     data-slide="${imgIndex}">
+                              `).join('')
                             : `<i class="fas fa-project-diagram"></i>`
                         }
+                        ${hasMultipleImages ? `
+                            <div class="slide-indicators">
+                                ${images.map((_, imgIndex) => `
+                                    <span class="slide-dot ${imgIndex === 0 ? 'active' : ''}" data-slide="${imgIndex}"></span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
                     </div>
                     <div class="project-content">
+                        <span class="project-category">${category}</span>
                         <h3>${project.title}</h3>
                         <p>${project.description || ''}</p>
                         <div class="project-tags">
                             ${tags.map(tag => `<span>${tag}</span>`).join('')}
                         </div>
                         <div class="project-links">
-                            ${project.github_url ? `<a href="${project.github_url}" target="_blank"><i class="fab fa-github"></i> GitHub</a>` : ''}
                             ${project.live_url ? `<a href="${project.live_url}" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>` : ''}
+                            ${project.github_url ? `<a href="${project.github_url}" target="_blank"><i class="fab fa-github"></i> GitHub</a>` : ''}
+                            ${project.pdf_url ? `<a href="${project.pdf_url}" target="_blank" class="pdf-link"><i class="fas fa-file-pdf"></i> View PDF</a>` : ''}
                         </div>
                     </div>
                 </div>
             `;
         });
         
-        container.innerHTML = html;
+        container.innerHTML = filterHtml + `<div class="projects-list">${cardsHtml}</div>`;
+        
+        // Initialize category filter
+        initProjectFilters();
+        
+        // Initialize image slideshows
+        initProjectSlideshows();
+        
+        // Initialize scroll observer for project cards
+        initProjectScrollObserver();
         
         // Update project count
         const projectCount = document.getElementById('projects-count');
@@ -251,6 +301,76 @@ async function loadProjects() {
         console.error('Error loading projects:', error);
         container.innerHTML = '<p class="no-data">Failed to load projects. Please refresh the page.</p>';
     }
+}
+
+// Initialize project category filters
+function initProjectFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active state
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const category = btn.dataset.category;
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = '';
+                    card.classList.add('visible');
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Initialize project image slideshows (2 second interval)
+function initProjectSlideshows() {
+    const slideshows = document.querySelectorAll('.project-image.slideshow');
+    
+    slideshows.forEach(slideshow => {
+        const slides = slideshow.querySelectorAll('.project-slide');
+        const dots = slideshow.querySelectorAll('.slide-dot');
+        
+        if (slides.length <= 1) return;
+        
+        let currentSlide = 0;
+        
+        setInterval(() => {
+            // Remove active from current
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            // Move to next
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            // Add active to new
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }, 2000);
+    });
+}
+
+// Initialize scroll observer for project cards
+function initProjectScrollObserver() {
+    const cards = document.querySelectorAll('.project-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    cards.forEach(card => observer.observe(card));
 }
 
 // Load Experience from API

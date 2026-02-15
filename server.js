@@ -4,8 +4,44 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const cors = require('cors');
+const multer = require('multer');
+const fs = require('fs');
 
 const app = express();
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Multer configuration for image uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadsDir);
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Invalid file type. Only JPEG, PNG, GIF, WebP, and PDF are allowed.'), false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: {
+        fileSize: 10 * 1024 * 1024 // 10MB limit for PDFs
+    }
+});
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = 'your-secret-key-change-in-production';
 
@@ -13,6 +49,7 @@ const JWT_SECRET = 'your-secret-key-change-in-production';
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Database setup
 const db = new sqlite3.Database('portfolio.db', (err) => {
@@ -51,11 +88,17 @@ function initializeDatabase() {
             description TEXT,
             technologies TEXT,
             image_url TEXT,
+            pdf_url TEXT,
+            category TEXT DEFAULT 'Web Development',
             github_url TEXT,
             live_url TEXT,
             featured INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )`);
+        
+        // Add new columns if they don't exist (for existing databases)
+        db.run(`ALTER TABLE projects ADD COLUMN pdf_url TEXT`, (err) => {});
+        db.run(`ALTER TABLE projects ADD COLUMN category TEXT DEFAULT 'Web Development'`, (err) => {});
 
         // Experience table
         db.run(`CREATE TABLE IF NOT EXISTS experience (
@@ -228,6 +271,75 @@ app.get('/api/auth/verify', authenticateToken, (req, res) => {
     res.json({ valid: true, user: req.user });
 });
 
+// Change username
+app.put('/api/auth/username', authenticateToken, (req, res) => {
+    const { newUsername, currentPassword } = req.body;
+    const userId = req.user.id;
+
+    if (!newUsername || !currentPassword) {
+        return res.status(400).json({ error: 'New username and current password are required' });
+    }
+
+    db.get('SELECT * FROM users WHERE id = ?', [userId], (err, user) => {
+        if (err || !user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (!bcrypt.compareSync(currentPassword, user.password)) {
+            return res.status(401).json({ error: 'Current password is incorrect' });
+        }
+
+        // Check if new username already exists
+        db.get('SELECT id FROM users WHERE username = ? AND id != ?', [newUsername, userId], (err, existing) => {
+            if (existing) {
+                return res.status(400).json({ error: 'Username already taken' });
+            }
+
+            db.run('UPDATE users SET username = ? WHERE id = ?', [newUsername, userId], function(err) {
+                if (err) {
+                    return res.status(500).json({ error: 'Failed to update username' });
+                }
+                
+                // Generate new token with updated username
+                const newToken = jwt.sign({ id: userId, username: newUsername }, JWT_SECRET, { expiresIn: '24h' });
+                res.json({ success: true, token: newToken, username: newUsername });
+            });
+        });
+    });
+});
+
+// Change password
+app.put('/api/auth/password', authenticateToken, (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ error: 'Current and new password are required' });
+    }
+
+    if (newPassword.length < 6) {
+        return res.status(400).json({ error: 'New password must be at least 6 characters' });
+    }
+
+    db.get('SELECT * FROM users WHERE id = ?', [userId], (err, user) => {
+        if (err || !user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (!bcrypt.compareSync(currentPassword, user.password)) {
+            return res.status(401).json({ error: 'Current password is incorrect' });
+        }
+
+        const hashedPassword = bcrypt.hashSync(newPassword, 10);
+        db.run('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, userId], function(err) {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to update password' });
+            }
+            res.json({ success: true, message: 'Password updated successfully' });
+        });
+    });
+});
+
 // ============ PUBLIC API ROUTES ============
 
 // Get all skills (public)
@@ -380,6 +492,38 @@ app.delete('/api/admin/projects/:id', authenticateToken, (req, res) => {
     db.run('DELETE FROM projects WHERE id = ?', [id], function(err) {
         if (err) {
             return res.status(500).json({ error: 'Failed to delete project' });
+        }
+        res.json({ success: true });
+    });
+});
+
+// IMAGE UPLOAD
+app.post('/api/admin/upload', authenticateToken, upload.single('image'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+        
+        const imageUrl = `/uploads/${req.file.filename}`;
+        res.json({ 
+            success: true, 
+            url: imageUrl,
+            filename: req.file.filename
+        });
+    } catch (err) {
+        console.error('Upload error:', err);
+        res.status(500).json({ error: 'Failed to upload image' });
+    }
+});
+
+// Delete uploaded image
+app.delete('/api/admin/upload/:filename', authenticateToken, (req, res) => {
+    const { filename } = req.params;
+    const filepath = path.join(uploadsDir, filename);
+    
+    fs.unlink(filepath, (err) => {
+        if (err && err.code !== 'ENOENT') {
+            return res.status(500).json({ error: 'Failed to delete image' });
         }
         res.json({ success: true });
     });
