@@ -1000,7 +1000,7 @@ body::before {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     align-items: end;
-    margin-top: -300px;
+    margin-top: -250px;
     position: relative;
     z-index: 2;
 }
@@ -1023,6 +1023,7 @@ body::before {
     object-position: center top;
     filter: grayscale(100%);
     display: block;
+    transform: rotate(3deg);
 }
 
 .about-photo .image-placeholder {
